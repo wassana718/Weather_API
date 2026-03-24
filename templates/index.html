@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="static/style.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>🌤️ Weather App</h1>
+
+        <form method="POST">
+            <input type="text" name="city" placeholder="Enter city">
+            <button type="submit">Search</button>
+        </form>
+
+        <h2>{{ output }}</h2>
+        <!-- 
+    <form method="POST">
+        <input type="text" name="city" placeholder="Enter city..." required>
+        <button type="submit">Search</button>
+    </form> -->
+
+        {% if weather %}
+        <div class="card">
+            <h2>{{ weather.city }}, {{ weather.country }}</h2>
+            <p class="temp">{{ weather.temp }}°C</p>
+            <p>{{ weather.description }}</p>
+
+            <div class="details">
+                <p>Feels Like: {{ weather.feels }}°C</p>
+                <p>Min: {{ weather.min }}°C | Max: {{ weather.max }}°C</p>
+                <p>Humidity: {{ weather.humidity }}%</p>
+                <p>Pressure: {{ weather.pressure }} hPa</p>
+                <p>Wind: {{ weather.wind }} m/s</p>
+                <p>Sunrise: {{ weather.sunrise }}</p>
+                <p>Sunset: {{ weather.sunset }}</p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+</body>
+
+</html>
