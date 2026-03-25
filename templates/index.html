@@ -1,48 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <title>Weather App</title>
-    <link rel="stylesheet" href="static/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyCast Pro | Smart Weather</title>
+    <link rel="stylesheet" href="/static/style.css">
 </head>
 
-<body>
+<body class="{{ temp_class }}">
+
+    <div class="bg-animation">
+        <div class="cloud" style="width: 300px; height: 150px; top: 10%; left: -300px; animation-delay: 0s;"></div>
+        <div class="cloud" style="width: 500px; height: 220px; top: 40%; left: -500px; animation-delay: 5s;"></div>
+        <div class="cloud" style="width: 200px; height: 100px; top: 80%; left: -200px; animation-delay: 12s;"></div>
+    </div>
 
     <div class="container">
-        <h1>🌤️ Weather App</h1>
+        <h1 style="font-weight: 800; font-size: 2.5rem; margin-bottom: 20px;">SkyCast Pro</h1>
 
-        <form method="POST">
-            <input type="text" name="city" placeholder="Enter city">
+        <form method="POST" class="search-form">
+            <input type="text" name="city" placeholder="Search a city..." required autocomplete="off">
             <button type="submit">Search</button>
         </form>
 
-        <h2>{{ output }}</h2>
-        <!-- 
-    <form method="POST">
-        <input type="text" name="city" placeholder="Enter city..." required>
-        <button type="submit">Search</button>
-    </form> -->
+        {% if output %}
+            <p style="background: rgba(255,0,0,0.3); padding: 10px; border-radius: 10px; margin-bottom: 20px;">{{ output }}</p>
+        {% endif %}
 
         {% if weather %}
-        <div class="card">
-            <h2>{{ weather.city }}, {{ weather.country }}</h2>
-            <p class="temp">{{ weather.temp }}°C</p>
-            <p>{{ weather.description }}</p>
-
-            <div class="details">
-                <p>Feels Like: {{ weather.feels }}°C</p>
-                <p>Min: {{ weather.min }}°C | Max: {{ weather.max }}°C</p>
-                <p>Humidity: {{ weather.humidity }}%</p>
-                <p>Pressure: {{ weather.pressure }} hPa</p>
-                <p>Wind: {{ weather.wind }} m/s</p>
-                <p>Sunrise: {{ weather.sunrise }}</p>
-                <p>Sunset: {{ weather.sunset }}</p>
+        <div class="weather-display">
+            
+            <div class="side-card">
+                {% if nearby[0] %}
+                    <h3>{{ nearby[0].city }}</h3>
+                    <img src="{{ nearby[0].icon_url }}" alt="icon">
+                    <p style="font-size: 1.5rem; font-weight: bold;">{{ nearby[0].temp }}°C</p>
+                    <p>{{ nearby[0].description }}</p>
+                {% else %}
+                    <p>Fetching nearby...</p>
+                {% endif %}
             </div>
+
+            <div class="main-card">
+                <h2>{{ weather.city }}, {{ weather.country }}</h2>
+                <img src="{{ weather.icon_url }}" alt="weather icon" style="width: 120px;">
+                <span class="main-temp">{{ weather.temp }}°C</span>
+                <p style="font-size: 1.3rem; opacity: 0.9;">{{ weather.description }}</p>
+
+                <div class="details-grid">
+                    <div class="detail-item"><strong>{{ weather.feels }}°C</strong> Feels Like</div>
+                    <div class="detail-item"><strong>{{ weather.humidity }}%</strong> Humidity</div>
+                    <div class="detail-item"><strong>{{ weather.wind }} km/h</strong> Wind</div>
+                    <div class="detail-item"><strong>{{ weather.max }}° / {{ weather.min }}°</strong> High/Low</div>
+                    <div class="detail-item"><strong>{{ weather.sunrise }}</strong> Sunrise</div>
+                    <div class="detail-item"><strong>{{ weather.sunset }}</strong> Sunset</div>
+                </div>
+            </div>
+
+            <div class="side-card">
+                {% if nearby[1] %}
+                    <h3>{{ nearby[1].city }}</h3>
+                    <img src="{{ nearby[1].icon_url }}" alt="icon">
+                    <p style="font-size: 1.5rem; font-weight: bold;">{{ nearby[1].temp }}°C</p>
+                    <p>{{ nearby[1].description }}</p>
+                {% else %}
+                    <p>Fetching nearby...</p>
+                {% endif %}
+            </div>
+
         </div>
         {% endif %}
     </div>
 
 </body>
-
 </html>
