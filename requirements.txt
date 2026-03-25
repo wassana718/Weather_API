@@ -1,0 +1,3 @@
+Flask
+gunicorn
+requests   # (add if your app uses requests for weather API)
